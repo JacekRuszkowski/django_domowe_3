@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wypożyczalnia książek</title>
+</head>
+<body>
+    <div>Lista książek</div>
+    {% for book in all_books %}
+        <div>
+            <p>{{ book.image }}</p>
+            <p>{{ book.title }}</p>
+            <p>{{ book.author }}</p>
+            <p>{{ book.description }}</p>
+            <p>{{ book.pages }}</p>
+            {% if book.is_available == True %}
+                <p>Dostępna</p>
+            {% else %}
+                <p>Wypożyczona</p>
+            {% endif %}
+            <p>_________________</p>
+        </div>
+    {% endfor %}
+</body>
+</html>

@@ -1,0 +1,55 @@
+### Zadanie 9.6
+
+Stwórz aplikację umożliwiającą zarządzanie wypożyczaniem książek w prywatnej bibliotece (np. w firmie).
+Użytkownik aplikacji powinien mieć możliwość:
+􏰀- przeglądania dostępnych książek
+- wypożyczenia/oddania książki
+- przeglądania swoich wypożyczeń
+
+### Zadanie 9.7 - rozszerzenie zadania 9.6
+
+Dodatkowe rozszerzenia aplikacji:
+􏰀- wyszukiwanie książek po nazwie/autorze
+􏰀- kategorie książek wraz z wyszukiwaniem po kategoriach
+􏰀- informacja o wypożyczeniach, którym upłyną termin zwrotu 􏰀 możliwość zrecenzowania książki podczas oddawania
+􏰀- zarządzanie wieloma egzemplarzami tej samej książki
+􏰀- obserwowanie książek niedostępnych
+􏰀- rejestracja nowych użytkowników
+
+
+1. Zrobić model ksiązki.
+    a. książka może być dostępna, albo niedostępna w zależności od tego czy jakiś użytkownik ją wypozyczył
+    b. ksiązka może(powinna/musi) należeć do kategorii
+2. Stworzyć metodę wyszukiwania książek po tytule/autorze.
+3. Stworzyć kategorie książek i możliwość wyszukiwania po katetgoriach.
+3. Stowrzyć administratora, który będzie mógł dodawać i usuwać nowe ksisążki; przypisywać do kategorii.
+4. Rejestrować użytkowników -  możliwość stworzenie własnego konta, w którym użytkownik będzie mógł:
+    a. przeglądać książki
+    b. wyszukiwać książki
+    c. wyporzyczać/oddawać ksiązki
+    d. przeglądać swoje wypozyczenia
+
+Atrybuty modelu książki:
+1. Tytuł
+2. Autor
+3. Zdjęcie książki
+4. Opis
+5. Ilość stron
+6. Kategoria (książki mają należeć do jednej kategorii?)
+7. Czy jest dostępna (to ma się zmieniać w zależności od tego czy ktoż wypozyczył).
+8. Czas wypozyczenia - czy to tutaj?
+
+Co może użytkownik:
+1. Przeglądać
+2. Wypozyczać
+3. Zwracać
+4. Recenzować
+5. Ma limit wyporzyczonych książek (ile?)
+
+Plan działania:
+1. Stwórz model książki
+2. Stwórz administratora do dodawania książek
+3. Stwórz widok strony głownej (na razie tylko podstawowy css)
+
+zdjecia : 15:56
+https://www.youtube.com/watch?v=FdVuKt_iuSI
