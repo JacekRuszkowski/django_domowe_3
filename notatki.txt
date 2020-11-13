@@ -50,6 +50,14 @@ Plan działania:
 1. Stwórz model książki
 2. Stwórz administratora do dodawania książek
 3. Stwórz widok strony głownej (na razie tylko podstawowy css)
+    kategoroie ksiazek w roziwijanym menu
+4. Zrobić widok przykładowej strony z kategorią
 
 zdjecia : 15:56
 https://www.youtube.com/watch?v=FdVuKt_iuSI
+
+# popracować nad widokiem category_view - powinien wyświetlać katerie i pod spodem książki w kategoriach
+
+
+
+

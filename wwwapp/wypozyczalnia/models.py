@@ -19,9 +19,11 @@ from django.db import models
 # kategoria
 class Category(models.Model):
     name = models.CharField(max_length=100)
+    parent_category = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
     slug = models.SlugField(max_length=100, unique=True)
 
     class Meta:
+        unique_together = ('slug', 'parent_category', )
         ordering = ('name',)
         verbose_name = "category"
         verbose_name_plural = "categories"

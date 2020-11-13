@@ -2,7 +2,7 @@
 
     {% block content %}
 
-        {% for book in all_books %}
+        {% for book in books %}
             <div>
                 <img width="200" src= "{{ book.image.url }}">
                 <p>Tytuł: {{ book.title }}</p>

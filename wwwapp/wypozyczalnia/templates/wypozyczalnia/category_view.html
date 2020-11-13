@@ -1,0 +1,15 @@
+{% extends "wypozyczalnia/base.html" %}
+
+    {% block content %}
+        <h2>Kategorie</h2>
+        <br>
+            {% for category in categories %}
+                <h5>{{ category.name }}</h5>
+                {% for book in books %}
+                    {% if book.category_id == category.id %}
+                        <p>{{ book.title }}</p>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+
+    {% endblock content %}
