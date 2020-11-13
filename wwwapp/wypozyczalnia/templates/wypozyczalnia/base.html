@@ -17,21 +17,28 @@
 
     <div class ="container">
 <!--        menu-->
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle btn-lg"
-                    type="button" id="dropdownMenu1" data-toggle="dropdown">Menu
-            <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-                <li class="dropdown-header">Beletrystyka</li>
-                <li><a href="#">Fantastyka</a></li>
-                <li><a href="#">Horror</a></li>
-                <li><a href="#">Sensacja</a></li>
-                <li><a href="#">Kryminał</a></li>
+           {% for category in categories %}
+                <a href="{% url 'categories' category.slug %}">{{ category.name }}</a>
+           {% endfor %}
+<!--            <li><a href="#">Konto</a></li>-->
+<!--            <li class="dropdown">-->
+<!--            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Kategorie-->
+<!--            <span class="caret"></span>-->
 
-                <li role="separator" class="divider"></li>
-            </ul>
-        </div>
+<!--            <ul class="dropdown-menu">-->
+
+<!--                    <li><a href="#">beletrystyka</a></li>-->
+<!--                <li><a href="#">fantastyka</a></li>-->
+<!--                <li><a href="#">horror</a></li>-->
+<!--                <li><a href="#">kryminał, sensacja</a></li>-->
+<!--                <li><a href="#">literatura obyczajowa</a></li>-->
+<!--                <li><a href="#">dla dzieci</a></li>-->
+<!--                <li role="separator" class="dropdown-divider"></li>-->
+<!--                <li><a href="#">literatura faktu</a></li>-->
+<!--                <li><a href="#">literatura popularnonaukowa</a></li>-->
+
+<!--            </ul>-->
+<!--            </a></li>-->
 
 
         <div class="page-header">

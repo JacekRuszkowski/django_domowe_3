@@ -58,6 +58,12 @@ https://www.youtube.com/watch?v=FdVuKt_iuSI
 
 # popracować nad widokiem category_view - powinien wyświetlać katerie i pod spodem książki w kategoriach
 
+Zrobić, żeby poklinkięciu w beletrystyke pojawiły się wszystkie ksiazki z beletrystyki.
+- widok strony
+- sciezka do widoku strony
 
+-sprwadzić jeszcze raz views co tam sie stało -*category zamiast categories)
+- sprawić, żeby po kliknięciu wchodził slug do ścieżki - DZIALA!!!!!!!!!!!!!!!!!!
+Tylko czemu menu się nie pojawia na podstronie kategorii?
 
 
