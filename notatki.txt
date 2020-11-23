@@ -62,8 +62,9 @@ Zrobić, żeby poklinkięciu w beletrystyke pojawiły się wszystkie ksiazki z b
 - widok strony
 - sciezka do widoku strony
 
--sprwadzić jeszcze raz views co tam sie stało -*category zamiast categories)
-- sprawić, żeby po kliknięciu wchodził slug do ścieżki - DZIALA!!!!!!!!!!!!!!!!!!
-Tylko czemu menu się nie pojawia na podstronie kategorii?
+1 stworzyć widok szczegółu książki - DONE
+2 dokończyć dodawanie książki - niech przekirowuje na szczegóły książki - możliwość edycji lub usunięcia
+3 stworzony widok edycji książki - zrobić, żeby zapisywał się po edycji i wracał na widok książki - czyli stworzyć pkt 1
+4. Stworzyć widok wszystkich książek autora
 
 

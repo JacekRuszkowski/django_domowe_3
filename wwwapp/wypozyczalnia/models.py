@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 # Atrybuty modelu książki:
@@ -45,3 +46,6 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
+
+    # def get_absolute_url(self):
+    #     return reverse('home') # tutaj trzeba będzie dodać chyba nr pk, żeby wrócił do tego samego obiektu (po zapisaniu)

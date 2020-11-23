@@ -1,0 +1,23 @@
+{% extends "wypozyczalnia/base.html" %}
+
+    {% block content %}
+       <h5 class="title">Usuń książkę</h5>
+
+        <div class="jumbotron">
+            <p>{{ book.title}}</p>
+            <p>{{ book.author}}</p>
+            <form method="POST">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom">
+                        Czy na pewno chcesz usunąć tę książkę?
+                    </legend>
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-danger" type="submit">Usuń</button>
+                    <a class = "btn btn-primary" href="{% url 'book-detail' book.slug %}">Nie</a>
+                </div>
+
+            </form>
+        </div>
+    {% endblock content %}
