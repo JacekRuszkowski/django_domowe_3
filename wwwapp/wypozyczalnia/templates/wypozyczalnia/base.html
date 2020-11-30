@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load crispy_forms_tags %}
 {% load static %}
 <html lang="pl">
 <head>
@@ -20,7 +21,7 @@
         <nav>
             <a href="{% url 'home' %}">home</a>
             {% for category in categories %}
-                <a href="{% url 'categories' category.slug %}">{{ category.name }}</a>
+                <a href="{% url 'categories' category.slug %}">{{ category.name }} |</a>
     <!--<a href="{% url 'categories' category.slug %}">{{ category.name }}</a>-->
             {% endfor %}
             <a href="{% url 'book-add' %}">dodaj książkę</a>
@@ -35,6 +36,13 @@
             <h1>Wypożyczalnia książek</h1>
         </div>
         <div class="jumbotron">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
             {% block content %}{% endblock %}
         </div>
     </div>

@@ -16,12 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 # from . import views
-from .views import home, category, book_edit, book_detail, book_add, book_delete
+from .views import home, category, book_edit, book_detail, book_add, book_delete, books_by_author
 
 urlpatterns = [
     path('', home, name='home'),
     # path('add/home/', home, name='home'),
     path('category/<str:slug>/', category, name='categories'),
+    path('<str:author>/', books_by_author, name='authors-books'),
     path('add/', book_add, name='book-add'),
     path('<str:slug>/edit', book_edit, name='book-edit'),
     path('<str:slug>/', book_detail, name='book-detail'),

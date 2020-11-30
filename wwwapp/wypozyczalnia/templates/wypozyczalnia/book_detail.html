@@ -2,14 +2,6 @@
 
     {% block content %}
        <div>
-            {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                    <h1>{{ message }} </h1>
-                {% endfor %}
-            </ul>
-            {% endif %}
-
             <img width="200" src= "{{ book.image.url }}">
             <p>Tytuł: {{ book.title }}</p>
             <p>Autor: {{ book.author }}</p>

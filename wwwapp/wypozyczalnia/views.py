@@ -25,6 +25,15 @@ def category(request, slug):
                }
     return render(request, 'wypozyczalnia/category_view.html', content)
 
+def books_by_author(request, author):
+    categories = Category.objects.all()
+    books = Book.objects.filter(author=author)
+    content = {
+        'books': books,
+        'categories': categories,
+    }
+    return render(request, 'wypozyczalnia/author.html', content)
+
 
 def book_detail(request, slug):
     book = get_object_or_404(Book, slug=slug)
@@ -37,10 +46,10 @@ def book_detail(request, slug):
 def book_add(request):
     categories = Category.objects.all()
     if request.method == "POST":
-        messages.success(request, 'Dodano nową książkę')
-        form = BookForm(request.POST)
+        form = BookForm(request.POST, request.FILES)
         if form.is_valid():
             book = form.save()
+            messages.success(request, 'Dodano nową książkę')
         return redirect('book-detail', slug=book.slug)
     else:
         form = BookForm()
@@ -51,11 +60,11 @@ def book_add(request):
 def book_edit(request, slug):
     book = get_object_or_404(Book, slug=slug)
     categories = Category.objects.all()
-    if request.method == "POST":  # tutaj coś nie działa. Nie widzi POST?
-        form = BookForm(request.POST, instance=book)
+    if request.method == "POST":
+        form = BookForm(request.POST, request.FILES, instance=book)
         if form.is_valid():
-            # book = book.save()
-            book.save()
+            form.save()
+            messages.success(request, f'Zmiany zapisane')
             return redirect('book-detail', slug=book.slug)
     else:
         form = BookForm(instance=book)
@@ -68,6 +77,7 @@ def book_delete(request, slug):
     categories = Category.objects.all()
     if request.method == "POST":
         book.delete()
+        messages.success(request, f'Książka usunięta')
         return redirect('home')
     content = {'book': book,
                'categories': categories}

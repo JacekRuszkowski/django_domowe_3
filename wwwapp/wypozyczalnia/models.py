@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from PIL import Image
 
 
 # Atrybuty modelu książki:
@@ -47,5 +48,8 @@ class Book(models.Model):
     def __str__(self):
         return self.title
 
-    # def get_absolute_url(self):
-    #     return reverse('home') # tutaj trzeba będzie dodać chyba nr pk, żeby wrócił do tego samego obiektu (po zapisaniu)
+    def save(self):
+        super().save()
+        img = Image.open(self.image.path)
+        img.save(self.image.path)
+
