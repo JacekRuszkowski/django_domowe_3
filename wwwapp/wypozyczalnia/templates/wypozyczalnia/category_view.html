@@ -8,16 +8,15 @@
                     <div>
                         <img width="200" src= "{{ book.image.url }}">
                         <p>Tytuł: <a href="{% url 'book-detail' book.slug %}">{{ book.title }}</a></p>
-                        <p>Autor: {{ book.author }}</p>
+                        <p>Autor: <a href="{% url 'authors-books' book.author %}">{{ book.author }}</a></p>
                         <p>Kategoria: {{ book.category }}</p>
                         <p>Opis: {{ book.description }}</p>
                         <p>Ilość stron: {{ book.pages }}</p>
-                        {% if book.is_available == True %}
-                            <p>Książka dostępna</p>
+                        <p>Liczba egzemplarzy: {{ book.copies }}</p>
+                        {% if book.copies > 0 %}
                             <button type = "submit" class="btn btn-primary">Wypożycz</button>
                         {% else %}
                             <p>Książka niedostępna</p>
-                            <button type = "submit" class="btn btn-primary" disabled="disabled">Wypożycz</button>
                         {% endif %}
                         <a class = "btn btn-primary" href="{% url 'book-edit' book.slug %}">Edytuj</a>
                         <a class = "btn btn-warning" href="{% url 'book-delete' book.slug %}">Usuń</a>

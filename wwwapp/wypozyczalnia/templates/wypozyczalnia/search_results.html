@@ -1,12 +1,6 @@
 {% extends "wypozyczalnia/base.html" %}
-
 {% block content %}
-    <h2 class="title">Wszystkie książki</h2>
-    <br>
-    <p>Znajdź książkę</p>
-    <form action={% url 'search-results' %} method="get">
-        <input name="q" type ="text" placeholder="Podaj tytyuł lub autora...">
-    </form>
+    <h2 class="title">Rezultat wyszukiwania:</h2>
     <br>
     {% for book in books %}
         <div>
@@ -16,11 +10,12 @@
             <p>Kategoria: {{ book.category }}</p>
             <p>Opis: {{ book.description }}</p>
             <p>Ilość stron: {{ book.pages }}</p>
-            <p>Liczba egzemplarzy: {{ book.copies }}</p>
-            {% if book.copies > 0 %}
+            {% if book.is_available == True %}
+                <p>Książka dostępna</p>
                 <button type = "submit" class="btn btn-primary">Wypożycz</button>
             {% else %}
                 <p>Książka niedostępna</p>
+                <button type = "submit" class="btn btn-primary" disabled="disabled">Wypożycz</button>
             {% endif %}
             <a class = "btn btn-primary" href="{% url 'book-edit' book.slug %}">Edytuj</a>
             <a class = "btn btn-warning" href="{% url 'book-delete' book.slug %}">Usuń</a>

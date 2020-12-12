@@ -68,3 +68,10 @@ Zrobić, żeby poklinkięciu w beletrystyke pojawiły się wszystkie ksiazki z b
 4. Stworzyć widok wszystkich książek autora
 
 
+NameError: name 'conn' is not defined
+>>> conn.text_factory = str
+
+
+res = conn.execute("SELECT name FROM sqlite_master WHERE type='table';")
+for name in res:
+    print name[0]

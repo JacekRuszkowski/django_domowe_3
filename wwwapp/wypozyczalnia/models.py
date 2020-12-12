@@ -41,15 +41,9 @@ class Book(models.Model):
     description = models.TextField()
     pages = models.CharField(max_length=50)
     image = models.ImageField(default='default.jpg', upload_to='book_images')
-    is_available = models.BooleanField()
+    copies = models.IntegerField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     slug = models.SlugField(max_length=200, unique=True)
 
     def __str__(self):
         return self.title
-
-    def save(self):
-        super().save()
-        img = Image.open(self.image.path)
-        img.save(self.image.path)
-

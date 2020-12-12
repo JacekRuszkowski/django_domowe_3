@@ -2,7 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Book, Category
 from .forms import BookForm
 from django.contrib import messages
-from django.views.generic import CreateView, DetailView
+from django.views.generic import ListView
+from django.db.models import Q
 
 
 # przy użyciu metody:
@@ -15,6 +16,37 @@ def home(request):
     return render(request, 'wypozyczalnia/home.html', content)
 
 
+def search_results(request):
+    categories = Category.objects.all()
+    query = request.GET.get('q')
+    books = Book.objects.filter(
+        Q(title__icontains=query) | Q(author__icontains=query)
+    )
+    context = {
+        'categories': categories,
+        'books': books
+    }
+    return render(request, 'wypozyczalnia/search_results.html', context)
+
+
+### w ten sposób można zrobic za pomoca generic views, ale nie wiem jak wrzucić tam kategorie.
+# class SearchResultsView(ListView):
+#     model = Book
+#     template_name = 'wypozyczalnia/search_results.html'
+#     context_object_name = 'books'
+#
+#     def get_queryset(self):
+#         category = Category.objects.all()
+#         context = {
+#             'category':category
+#         }
+#         query = self.request.GET.get('q')
+#         books = Book.objects.filter(
+#             Q(title__icontains=query) | Q(author__icontains=query)
+#         )
+#         return books, context
+
+
 def category(request, slug):
     category = Category.objects.get(slug=slug)
     categories = Category.objects.all()
@@ -25,12 +57,15 @@ def category(request, slug):
                }
     return render(request, 'wypozyczalnia/category_view.html', content)
 
+
 def books_by_author(request, author):
     categories = Category.objects.all()
     books = Book.objects.filter(author=author)
+    author_name = author
     content = {
         'books': books,
         'categories': categories,
+        'author_name': author_name,
     }
     return render(request, 'wypozyczalnia/author.html', content)
 
@@ -55,6 +90,20 @@ def book_add(request):
         form = BookForm()
     content = {'form': form, 'categories': categories}
     return render(request, 'wypozyczalnia/book_edit.html', content)
+
+
+# funkcja, któtra zamienia slug dodawanej książki jeśli jest to dokładnie ta sama książka.
+# dodaje do pola slug numer id ksiazki zmieniony na str.
+# >>> for book in books:
+# ...     if book.slug == 'dorota':
+# ...             new_id == str(book.id)
+# ...             book.slug += new_id
+# ...             book.save()
+# ...
+# >>> for book in books:
+# ...     book.slug
+
+
 
 
 def book_edit(request, slug):
@@ -82,3 +131,6 @@ def book_delete(request, slug):
     content = {'book': book,
                'categories': categories}
     return render(request, 'wypozyczalnia/book_delete.html', content)
+
+
+
