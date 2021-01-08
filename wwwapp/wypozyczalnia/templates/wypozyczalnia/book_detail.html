@@ -10,12 +10,17 @@
             <p>Ilość stron: {{ book.pages }}</p>
             <p>Liczba egzemplarzy: {{ book.copies }}</p>
             {% if book.copies > 0 %}
-                <button type = "submit" class="btn btn-primary">Wypożycz</button>
+                <a href = "{% url 'add-to-cart' book.slug %}">Wypożycz</a>
+<!--                <button type = "submit" class="btn btn-primary">Wypożycz</button>-->
             {% else %}
                 <p>Książka niedostępna</p>
             {% endif %}
-            <a class = "btn btn-primary" href="{% url 'book-edit' book.slug %}">Edytuj</a>
-            <a class = "btn btn-warning" href="{% url 'book-delete' book.slug %}">Usuń</a>
+            {% if user.is_authenticated %}
+                {% if user.is_superuser %}
+                    <a class = "btn btn-primary" href="{% url 'book-edit' book.slug %}">Edytuj</a>
+                    <a class = "btn btn-warning" href="{% url 'book-delete' book.slug %}">Usuń</a>
+                {% endif %}
+            {% endif %}
         </div>
 
     {% endblock content %}

@@ -1,21 +1,7 @@
 from django.db import models
-from django.urls import reverse
-from PIL import Image
-
-
-# Atrybuty modelu książki:
-# 1. Tytuł
-# 2. Autor
-# 3. Zdjęcie książki
-# 4. Opis
-# 5. Ilość stron
-# 6. Kategoria (książki mają należeć do jednej kategorii?)
-# 7. Czy jest dostępna (to ma się zmieniać w zależności od tego czy ktoż wypozyczył).
-# 8. Czas wypozyczenia - czy to tutaj?
-
-# Wymyślić jak podłączyc model książki do kategorii.
-# 1. Stowrzyć model kategorii
-# 2. Przypisać książke do kategorii (za pomocę foreign Key? nr id kategorii?)
+from django.conf import settings
+from django.contrib.auth.models import User
+from users.models import Profile
 
 
 # kategoria
@@ -25,7 +11,7 @@ class Category(models.Model):
     slug = models.SlugField(max_length=100, unique=True)
 
     class Meta:
-        unique_together = ('slug', 'parent_category', )
+        unique_together = ('slug', 'parent_category',)
         ordering = ('name',)
         verbose_name = "category"
         verbose_name_plural = "categories"
@@ -47,3 +33,25 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
+
+
+# logika wypożyczania:
+class OrderItem(models.Model): # to jest konkretna jedna książka, którą użytkownik wypozycza?
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    ordered = models.BooleanField(default=False)
+    item = models.ForeignKey(Book, on_delete=models.CASCADE) # czy usunięcie książki z koszyka nie spowoduje usunięcie ksiązki z bazy dancyh?
+    quantity = models.IntegerField(default=1)
+
+    def __str__(self):
+        return f'{self.item.title}. Ilość sztuk: {self.quantity}'
+
+
+class Order(models.Model): # to jest lista wszystkich wypozyczeń użytkownika???? Historia wypozyczeń ??
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  # nie wiem czy tak jest dobrze? User czy Profile?
+    ordered = models.BooleanField(default=False)
+    ordered_date = models.DateTimeField()
+    items = models.ManyToManyField(OrderItem)
+
+    def __str__(self):
+        return f'{self.user.username}'
+

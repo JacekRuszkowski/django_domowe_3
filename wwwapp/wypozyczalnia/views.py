@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Book, Category
+from .models import Book, Category, OrderItem, Order
 from .forms import BookForm
 from django.contrib import messages
-from django.views.generic import ListView
+from django.utils import timezone
 from django.db.models import Q
 
 
@@ -10,10 +10,10 @@ from django.db.models import Q
 def home(request):
     categories = Category.objects.all()
     books = Book.objects.all()
-    content = {'categories': categories,
+    context = {'categories': categories,
                'books': books,
                }
-    return render(request, 'wypozyczalnia/home.html', content)
+    return render(request, 'wypozyczalnia/home.html', context)
 
 
 def search_results(request):
@@ -27,24 +27,6 @@ def search_results(request):
         'books': books
     }
     return render(request, 'wypozyczalnia/search_results.html', context)
-
-
-### w ten sposób można zrobic za pomoca generic views, ale nie wiem jak wrzucić tam kategorie.
-# class SearchResultsView(ListView):
-#     model = Book
-#     template_name = 'wypozyczalnia/search_results.html'
-#     context_object_name = 'books'
-#
-#     def get_queryset(self):
-#         category = Category.objects.all()
-#         context = {
-#             'category':category
-#         }
-#         query = self.request.GET.get('q')
-#         books = Book.objects.filter(
-#             Q(title__icontains=query) | Q(author__icontains=query)
-#         )
-#         return books, context
 
 
 def category(request, slug):
@@ -92,20 +74,6 @@ def book_add(request):
     return render(request, 'wypozyczalnia/book_edit.html', content)
 
 
-# funkcja, któtra zamienia slug dodawanej książki jeśli jest to dokładnie ta sama książka.
-# dodaje do pola slug numer id ksiazki zmieniony na str.
-# >>> for book in books:
-# ...     if book.slug == 'dorota':
-# ...             new_id == str(book.id)
-# ...             book.slug += new_id
-# ...             book.save()
-# ...
-# >>> for book in books:
-# ...     book.slug
-
-
-
-
 def book_edit(request, slug):
     book = get_object_or_404(Book, slug=slug)
     categories = Category.objects.all()
@@ -133,4 +101,34 @@ def book_delete(request, slug):
     return render(request, 'wypozyczalnia/book_delete.html', content)
 
 
+def add_to_cart(request, slug):
+    item = get_object_or_404(Book, slug=slug)
+    order_item, created = OrderItem.objects.get_or_create(
+        item=item,
+        user=request.user,
+        ordered=False
+    )
+    # order query set
+    order_qs = Order.objects.filter(user=request.user, ordered=False)
+    if order_qs.exists():
+        order = order_qs[0] # był błąd przez to?
+        if order.items.filter(item__slug=item.slug).exists():
+            order_item.quantity += 1
+            order_item.save()
+        else:
+            order.items.add(order_item)
+    else:
+        ordered_date = timezone.now()
+        order = Order.objects.create(user=request.user, ordered_date=ordered_date)
+        order.items.add(order_item) # skąd się wzięło tutaj "items"? bo to jest słownik?
+    messages.success(request, f'Książka dodana do koszyka???')
+    return redirect("book-detail", slug=item.slug)
 
+
+def remove_from_cart(request, slug):
+    item = get_object_or_404(Book, slug=slug)
+    order_item, created = OrderItem.objects.get_or_create(
+        item=item,
+        user=request.user,
+        ordered=False
+    )

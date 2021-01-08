@@ -15,7 +15,15 @@ Including another URLconf
 """
 
 from django.urls import path
-from .views import (home, category, book_edit, book_add, book_delete, book_detail, books_by_author, search_results)
+from .views import (home,
+                    category,
+                    book_edit,
+                    book_add,
+                    book_delete,
+                    book_detail,
+                    books_by_author,
+                    search_results,
+                    add_to_cart)
 
 urlpatterns = [
     path('', home, name='home'),
@@ -26,4 +34,5 @@ urlpatterns = [
     path('<str:slug>/edit/', book_edit, name='book-edit'),
     path('<str:slug>/', book_detail, name='book-detail'),
     path('<str:slug>/delete/', book_delete, name='book-delete'),
+    path('add-to-cart/<slug>', add_to_cart, name='add-to-cart')
 ]
