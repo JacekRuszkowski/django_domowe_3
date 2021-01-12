@@ -11,6 +11,7 @@
             <p>Liczba egzemplarzy: {{ book.copies }}</p>
             {% if book.copies > 0 %}
                 <a href = "{% url 'add-to-cart' book.slug %}">Wypożycz</a>
+                <a href = "{% url 'remove-from-cart' book.slug %}">Usuń z koszyka</a>
 <!--                <button type = "submit" class="btn btn-primary">Wypożycz</button>-->
             {% else %}
                 <p>Książka niedostępna</p>

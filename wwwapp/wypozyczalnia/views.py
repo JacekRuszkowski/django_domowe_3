@@ -13,7 +13,7 @@ def home(request):
     context = {'categories': categories,
                'books': books,
                }
-    return render(request, 'wypozyczalnia/home.html', context)
+    return render(request, 'wypozyczalnia/home-page.html', context)
 
 
 def search_results(request):
@@ -115,20 +115,33 @@ def add_to_cart(request, slug):
         if order.items.filter(item__slug=item.slug).exists():
             order_item.quantity += 1
             order_item.save()
+            messages.info(request, f'Ilość produktu zmieniona')
         else:
             order.items.add(order_item)
     else:
         ordered_date = timezone.now()
         order = Order.objects.create(user=request.user, ordered_date=ordered_date)
         order.items.add(order_item) # skąd się wzięło tutaj "items"? bo to jest słownik?
-    messages.success(request, f'Książka dodana do koszyka???')
+    messages.info(request, f'Książka dodana do koszyka???')
     return redirect("book-detail", slug=item.slug)
 
 
+# dlaczego w adminie te rzeczy cały czas są po usunięciu?
+# czy nie powinien usuwać całego obiektu order_item?
 def remove_from_cart(request, slug):
     item = get_object_or_404(Book, slug=slug)
-    order_item, created = OrderItem.objects.get_or_create(
-        item=item,
-        user=request.user,
-        ordered=False
-    )
+    order_qs = Order.objects.filter(user=request.user, ordered=False)
+    if order_qs.exists():
+        order = order_qs[0]  # był błąd przez to?
+        if order.items.filter(item__slug=item.slug).exists():
+            order_item = OrderItem.objects.filter(item=item, user=request.user, ordered=False)[0]
+            order.items.remove(order_item)
+            messages.info(request, f'Książka usunięta z koszyka.')
+            return redirect("book-detail", slug=item.slug)
+        else:
+            messages.warning(request, f'Nie ma takiej książki w koszyku.')
+            return redirect("book-detail", slug=item.slug)
+    else:
+        messages.warning(request, f'Nie masz aktywnego zamówienia.')
+        return redirect("book-detail", slug=item.slug)
+

@@ -73,17 +73,32 @@ Każdy uzytkownik ma w Orders te same wypozyczenia. Mimo, że wypozycał ktoś i
 usuwanie z koszyka:
 45:20
 
+dodawanie produtku7 do koszyka:
+potrzebuję rzecz, któą chce dodać:
 
-order_qs = Order.objects.filter(user=user)
-order = order_qs[0]
+54:10
 
-if order_qs.exists():
-	order = order_qs[0]
-	if order.itmes.filter(item__slug=item.slug).exists()
-		order_item.quantity += 1
-		order_item.save()
-	else:
-		order.items.add(order_item)
+Dokończyć home-page. Wymyślić jak zrobić, żeby układały się książki w 3 rzędach.
 
-Uwagi:
-Przejrzyj jeszcze raz fnkcję dodawania zamówienia krok po kroku.
+
+
+
+
+
+
+
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
