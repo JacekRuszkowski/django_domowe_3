@@ -1,27 +1,94 @@
-{% extends "wypozyczalnia/base.html" %}
-{% load crispy_forms_tags %}
-    {% block content %}
+{% extends 'wypozyczalnia/base.html' %}
 
-    <div class="jumbotron">
-        <div class="media">
-            <img width="100px" src="{{ user.profile.image.url }}">
-            <div class="media-body">
-                <h5>{{ user.username }}</h5>
-                <p>{{ user.email }}</p>
-                <p>{{ my_borrows }}</p>
-            </div>
+{% block content %}
+
+  <!--Main layout-->
+  <main class="mt-5 pt-4">
+    <div class="container dark-grey-text mt-5">
+
+      <!--Grid row-->
+      <div class="row wow fadeIn">
+
+        <!--Grid column dane profilu - dopracować -->
+        <div class="col-6 offset-4">
+          <img width="100px" src="{{ user.profile.image.url }}" class="img-fluid" alt="">
+          <p class="lead font-weight-bold">{{ user.username }}</p>
+          <p>{{ user.email }}</p>
+          <a class="btn btn-primary btn-md ml-0 p" href="{% url 'profile-edit' %}">Edytuj
+          </a>
+
         </div>
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <fieldset class="form-group">
-                <legend class="border-bottom">
-                    {{ u_form|crispy }}
-                    {{ p_form|crispy }}
-                </legend>
-            </fieldset>
-            <div class="form-group">
-                <button class="btn btn-info" type="submit">Zapisz</button>
-            </div>
-        </form>
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col-md-6 mb-4">
+
+          <!--Content-->
+          <div class="p-4">
+
+
+
+          </div>
+          <!--Content-->
+
+        </div>
+        <!--Grid column-->
+
+      </div>
+      <!--Grid row-->
+
+      <hr>
+
+      <!--Grid row-->
+      <div class="row d-flex justify-content-center wow fadeIn">
+
+        <!--Grid column-->
+        <div class="col-md-6 text-center">
+
+          <h4 class="my-4 h4">Recenzje użytkownika {{ user.username }}</h4>
+
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus suscipit modi sapiente illo soluta odit
+            voluptates,
+            quibusdam officia. Neque quibusdam quas a quis porro? Molestias illo neque eum in laborum.</p>
+
+        </div>
+        <!--Grid column-->
+
+      </div>
+      <!--Grid row-->
+
+      <!--Grid row-->
+      <div class="row wow fadeIn">
+
+        <!--Grid column-->
+        <div class="col-lg-4 col-md-12 mb-4">
+
+          <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/11.jpg" class="img-fluid" alt="">
+
+        </div>
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col-lg-4 col-md-6 mb-4">
+
+          <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/12.jpg" class="img-fluid" alt="">
+
+        </div>
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col-lg-4 col-md-6 mb-4">
+
+          <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/13.jpg" class="img-fluid" alt="">
+
+        </div>
+        <!--Grid column-->
+
+      </div>
+      <!--Grid row-->
+
     </div>
-    {% endblock content %}
+  </main>
+  <!--Main layout-->
+
+{% endblock content %}

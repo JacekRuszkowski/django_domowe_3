@@ -1,51 +1,50 @@
 {% extends "wypozyczalnia/base.html" %}
 
 {% block content %}
-    <h3>Wszystkie książki tego autora:</h3>
-    <h2 class="title">{{ author_name }}</h2>
-    <br>
-    {% for book in books %}
-        <div>
-            <img width="200" src= "{{ book.image.url }}">
-            <p>Tytuł: <a href="{% url 'book-detail' book.slug %}">{{ book.title }}</a></p>
-            <p>Autor: {{ book.author }}</p>
-            <p>Kategoria: {{ book.category }}</p>
-            <p>Opis: {{ book.description }}</p>
-            <p>Ilość stron: {{ book.pages }}</p>
-<!--            {% if book.is_available == True %}-->
-<!--                <p>Książka dostępna</p>-->
-<!--                <button type = "submit" class="btn btn-primary">Wypożycz</button>-->
-<!--            {% else %}-->
-<!--                <p>Książka niedostępna</p>-->
-<!--                <button type = "submit" class="btn btn-primary" disabled="disabled">Wypożycz</button>-->
-<!--            {% endif %}-->
-            <a class = "btn btn-primary" href="{% url 'book-edit' book.slug %}">Edytuj</a>
-            <a class = "btn btn-warning" href="{% url 'book-delete' book.slug %}">Usuń</a>
-            <p>_____________________________________</p>
+<main class="mt-5 pt-4">
+    <div class="container dark-grey-text mt-5">
+        <h3>Wszystkie książki tego autora:</h3>
+        <h2 class="title">{{ author_name }}</h2>
+        <br>
+       <section class="text-center mb-4">
+        <div class="row wow fadeIn">
+          {% for book in books %}
+              <div class="col-lg-3 md-6 mb-4">
+                <div class="card">
+                  <!--Card image-->
+                    <div class="view overlay">
+                      <img src="{{ book.image.url }}" class="card-img-top"
+                        alt="">
+                      <a href="{% url 'book-detail' book.slug %}">
+                        <div class="mask rgba-white-slight"></div>
+                      </a>
+                    </div>
+                    <!--Card image-->
+
+                    <!--Card content-->
+                    <div class="card-body text-center">
+                      <!--Category & Title-->
+                      <a href="" class="grey-text">
+                        <h5>{{ book.category }}</h5>
+                      </a>
+                      <h5>
+                        <strong>
+                          <a href="{% url 'book-detail' book.slug %}" class="dark-grey-text">{{ book.title }}
+                          </a>
+                        </strong>
+                      </h5>
+
+                      <p class="font-weight-bold black-text">
+                        <strong><a href ="{% url 'authors-books' book.author %}">{{ book.author }}</a></strong>
+                      </p>
+                    </div>
+                    <!--Card content-->
+                </div>
+              </div>
+          {% endfor %}
         </div>
-    {% endfor %}
-
-<!--        {% for book in books %}-->
-<!--            {% if book.category_id == category.id %}-->
-<!--                <div>-->
-<!--                    <img width="200" src= "{{ book.image.url }}">-->
-<!--                    <p>Tytuł: <a href="{% url 'book-detail' book.slug %}">{{ book.title }}</a></p>-->
-<!--                    <p>Autor: {{ book.author }}</p>-->
-<!--                    <p>Kategoria: {{ book.category }}</p>-->
-<!--                    <p>Opis: {{ book.description }}</p>-->
-<!--                    <p>Ilość stron: {{ book.pages }}</p>-->
-<!--                    {% if book.is_available == True %}-->
-<!--                        <p>Książka dostępna</p>-->
-<!--                        <button type = "submit" class="btn btn-primary">Wypożycz</button>-->
-<!--                    {% else %}-->
-<!--                        <p>Książka niedostępna</p>-->
-<!--                        <button type = "submit" class="btn btn-primary" disabled="disabled">Wypożycz</button>-->
-<!--                    {% endif %}-->
-<!--                    <a class = "btn btn-primary" href="{% url 'book-edit' book.slug %}">Edytuj</a>-->
-<!--                    <a class = "btn btn-warning" href="{% url 'book-delete' book.slug %}">Usuń</a>-->
-<!--                    <p>_____________________________________</p>-->
-<!--                </div>-->
-<!--            {% endif %}-->
-<!--        {% endfor %}-->
-
+      </section>
+     <!--Section: Products v.3-->
+    </div>
+</main>
 {% endblock content %}

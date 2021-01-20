@@ -1,0 +1,14 @@
+{% extends 'wypozyczalnia/base.html' %}
+
+{% block content %}
+<main>
+    <div class="container pt-5">
+        Ilość produktów w koszyku: {{ items_count }}
+    </div>
+    {% for item in items %}
+    <div class="container">
+        {{ item }}
+    </div>
+    {% endfor %}
+</main>
+{% endblock content %}

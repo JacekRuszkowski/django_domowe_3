@@ -4,15 +4,23 @@ from .forms import BookForm
 from django.contrib import messages
 from django.utils import timezone
 from django.db.models import Q
+from django.contrib.auth.models import AnonymousUser
+from django.core.paginator import Paginator
 
 
-# przy użyciu metody:
+# Tutaj strasznie duże sie dzieje, jakos trzeba to uprościć
+# do każdej funkcji musze przekazywać model Order, żeby wyświetlało sie zamówienie w koszyku?
+# nie można zrobic jakiejś jednej funkcji, która będzie to wyświetlać na każdej stronie?
 def home(request):
     categories = Category.objects.all()
-    books = Book.objects.all()
-    context = {'categories': categories,
-               'books': books,
-               }
+    paginator = Paginator(Book.objects.all(), 3)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    books = page_obj # wyświetlanie książek z podziałem na strony
+    context = {
+        'categories': categories,
+        'books': books,
+    }
     return render(request, 'wypozyczalnia/home-page.html', context)
 
 
@@ -113,17 +121,21 @@ def add_to_cart(request, slug):
     if order_qs.exists():
         order = order_qs[0] # był błąd przez to?
         if order.items.filter(item__slug=item.slug).exists():
-            order_item.quantity += 1
-            order_item.save()
-            messages.info(request, f'Ilość produktu zmieniona')
+            # order_item.quantity += 1
+            # order_item.save()
+            messages.warning(request, f'Możesz wyporzyczyć tylko jeden egzeplarz danej ksiazki.')
+            return redirect('book-detail', slug=item.slug)
         else:
             order.items.add(order_item)
+            messages.info(request, f'Książka dodana do koszyka.')
+            return redirect('book-detail', slug=item.slug)
+
     else:
         ordered_date = timezone.now()
         order = Order.objects.create(user=request.user, ordered_date=ordered_date)
         order.items.add(order_item) # skąd się wzięło tutaj "items"? bo to jest słownik?
-    messages.info(request, f'Książka dodana do koszyka???')
-    return redirect("book-detail", slug=item.slug)
+        messages.info(request, f'Książka dodana do koszyka.')
+        return redirect("book-detail", slug=item.slug)
 
 
 # dlaczego w adminie te rzeczy cały czas są po usunięciu?
@@ -144,4 +156,17 @@ def remove_from_cart(request, slug):
     else:
         messages.warning(request, f'Nie masz aktywnego zamówienia.')
         return redirect("book-detail", slug=item.slug)
+
+
+def cart_view(request):
+    order = Order.objects.get(user=request.user)
+    items = order.items.all()
+    items_count = order.items.count()
+    context = {
+        'items': items,
+        'items_count': items_count,
+    }
+    return render(request, 'wypozyczalnia/cart_test.html', context)
+
+
 

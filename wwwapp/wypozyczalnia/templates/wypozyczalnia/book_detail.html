@@ -1,27 +1,119 @@
-{% extends "wypozyczalnia/base.html" %}
+{% extends 'wypozyczalnia/base.html' %}
 
-    {% block content %}
-        <div>
-            <img width="200" src= "{{ book.image.url }}">
-            <p>Tytuł: <a href="{% url 'book-detail' book.slug %}">{{ book.title }}</a></p>
-            <p>Autor: <a href="{% url 'authors-books' book.author %}">{{ book.author }}</a></p>
-            <p>Kategoria: {{ book.category }}</p>
-            <p>Opis: {{ book.description }}</p>
-            <p>Ilość stron: {{ book.pages }}</p>
-            <p>Liczba egzemplarzy: {{ book.copies }}</p>
-            {% if book.copies > 0 %}
-                <a href = "{% url 'add-to-cart' book.slug %}">Wypożycz</a>
-                <a href = "{% url 'remove-from-cart' book.slug %}">Usuń z koszyka</a>
-<!--                <button type = "submit" class="btn btn-primary">Wypożycz</button>-->
-            {% else %}
-                <p>Książka niedostępna</p>
-            {% endif %}
-            {% if user.is_authenticated %}
-                {% if user.is_superuser %}
-                    <a class = "btn btn-primary" href="{% url 'book-edit' book.slug %}">Edytuj</a>
-                    <a class = "btn btn-warning" href="{% url 'book-delete' book.slug %}">Usuń</a>
-                {% endif %}
-            {% endif %}
+{% block content %}
+
+  <!--Main layout-->
+  <main class="mt-5 pt-4">
+    <div class="container dark-grey-text mt-5">
+
+      <!--Grid row-->
+      <div class="row wow fadeIn">
+
+        <!--Grid column-->
+        <div class="col-md-6 mb-4">
+
+          <img src="{{ book.image.url }}" class="img-fluid" alt="">
+
         </div>
+        <!--Grid column-->
 
-    {% endblock content %}
+        <!--Grid column-->
+        <div class="col-md-6 mb-4">
+
+          <!--Content-->
+          <div class="p-4">
+
+            <div class="mb-3">
+              <a href="{% url 'categories' book.category.slug %}">
+                <span class="badge blue mr-1">{{ book.category }}</span>
+              </a>
+            </div>
+
+            <p class="lead font-weight-bold">{{ book.title }}</p>
+
+            <a href="{% url 'authors-books' book.author %}">
+              <p class="lead font-weight-bold">{{ book.author }}</p>
+            </a>
+            <p>{{ book.description }}</p>
+
+            <div class="mb-3">
+                {% if book.copies > 0 %}
+                  <span class="badge green mr-1">Ilość egzemplarzy: {{ book.copies }}</span>
+                {% else %}
+                  <span class="badge red mr-1">Ilość egzemplarzy: {{ book.copies }}</span>
+                {% endif %}
+            </div>
+
+            <a class="btn btn-primary btn-md ml-0 p" href="{% url 'add-to-cart' book.slug %}">Dodaj do koszyka
+              <i class="fas fa-shopping-cart ml-1"></i>
+            </a>
+
+            <a class="btn btn-danger btn-md ml-0 p" href="{% url 'remove-from-cart' book.slug %}">Usuń z koszyka
+              <i class="fas fa-shopping-cart ml-1"></i>
+            </a>
+
+
+          </div>
+          <!--Content-->
+
+        </div>
+        <!--Grid column-->
+
+      </div>
+      <!--Grid row-->
+
+      <hr>
+
+      <!--Grid row-->
+      <div class="row d-flex justify-content-center wow fadeIn">
+
+        <!--Grid column-->
+        <div class="col-md-6 text-center">
+
+          <h4 class="my-4 h4">Tutaj będą recenzje użytkowników</h4>
+
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus suscipit modi sapiente illo soluta odit
+            voluptates,
+            quibusdam officia. Neque quibusdam quas a quis porro? Molestias illo neque eum in laborum.</p>
+
+        </div>
+        <!--Grid column-->
+
+      </div>
+      <!--Grid row-->
+
+      <!--Grid row-->
+      <div class="row wow fadeIn">
+
+        <!--Grid column-->
+        <div class="col-lg-4 col-md-12 mb-4">
+
+          <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/11.jpg" class="img-fluid" alt="">
+
+        </div>
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col-lg-4 col-md-6 mb-4">
+
+          <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/12.jpg" class="img-fluid" alt="">
+
+        </div>
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col-lg-4 col-md-6 mb-4">
+
+          <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/13.jpg" class="img-fluid" alt="">
+
+        </div>
+        <!--Grid column-->
+
+      </div>
+      <!--Grid row-->
+
+    </div>
+  </main>
+  <!--Main layout-->
+
+{% endblock content %}

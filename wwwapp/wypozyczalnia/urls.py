@@ -24,7 +24,8 @@ from .views import (home,
                     books_by_author,
                     search_results,
                     add_to_cart,
-                    remove_from_cart)
+                    remove_from_cart,
+                    cart_view)
 
 urlpatterns = [
     path('', home, name='home'),
@@ -32,6 +33,7 @@ urlpatterns = [
     path('author/<str:author>/', books_by_author, name='authors-books'),
     path('add/', book_add, name='book-add'),
     path('search/', search_results, name='search-results'),
+    path('cart/', cart_view, name='cart-view'),
     path('<str:slug>/edit/', book_edit, name='book-edit'),
     path('<str:slug>/', book_detail, name='book-detail'),
     path('<str:slug>/delete/', book_delete, name='book-delete'),

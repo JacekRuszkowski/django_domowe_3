@@ -21,8 +21,9 @@ def register(request):
     return render(request, 'users/register.html', {'form': form})
 
 
+# edycja profilu
 @login_required
-def profile(request): # w tej funkcji od razu jest update użytkownika i profilu
+def profile_edit(request):  # w tej funkcji od razu jest update użytkownika i profilu
     if request.method == 'POST':
         p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
         u_form = UserUpdateForm(request.POST, instance=request.user)
@@ -30,7 +31,7 @@ def profile(request): # w tej funkcji od razu jest update użytkownika i profilu
             p_form.save()
             u_form.save()
             messages.success(request, f'Dane zmodyfikowane')
-            return redirect('profile')
+            return redirect('profile-view')
     else:
         p_form = ProfileUpdateForm(instance=request.user.profile)
         u_form = UserUpdateForm(instance=request.user)
@@ -38,5 +39,10 @@ def profile(request): # w tej funkcji od razu jest update użytkownika i profilu
         'u_form': u_form,
         'p_form': p_form
     }
-    return render(request, 'users/profile.html', context)
+    return render(request, 'users/profile_edit.html', context)
 
+# widok profilu
+
+
+def profile_view(request):
+    return render(request, 'users/profile.html')

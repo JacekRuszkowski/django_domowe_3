@@ -2,20 +2,22 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <h5 class="title">Edytuj dane</h5>
-
-    <div class="jumbotron">
-<!--        multipart/form-data - służy do właściwego kodowania obrazków-->
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <fieldset class="form-group">
-                <legend class="border-bottom">
-                    {{ form|crispy }}
-                </legend>
-            </fieldset>
-            <div class="form-group">
-                <button class="btn btn-info" type="submit">Zapisz</button>
-            </div>
-        </form>
+<main class="mt-5">
+    <div class="container dark-grey-text">
+        <div class="col-6 offset-3">
+        <!--        multipart/form-data - służy do właściwego kodowania obrazków-->
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        <legend class="border-bottom">
+                            {{ form|crispy }}
+                        </legend>
+                    </fieldset>
+                    <div class="form-group">
+                        <button class="btn btn-info" type="submit">Zapisz</button>
+                    </div>
+                </form>
+        </div>
     </div>
+</main>
 {% endblock content %}
