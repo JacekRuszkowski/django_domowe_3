@@ -4,7 +4,7 @@ from .forms import BookForm
 from django.contrib import messages
 from django.utils import timezone
 from django.db.models import Q
-from django.contrib.auth.models import AnonymousUser
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.paginator import Paginator
 
 
@@ -13,7 +13,7 @@ from django.core.paginator import Paginator
 # nie można zrobic jakiejś jednej funkcji, która będzie to wyświetlać na każdej stronie?
 def home(request):
     categories = Category.objects.all()
-    paginator = Paginator(Book.objects.all(), 3)
+    paginator = Paginator(Book.objects.all(), 8)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     books = page_obj # wyświetlanie książek z podziałem na strony
@@ -68,6 +68,9 @@ def book_detail(request, slug):
     return render(request, 'wypozyczalnia/book_detail.html', content)
 
 
+# funkcje administaratora
+# warunek zamiast dekoratora user_passes_test
+@user_passes_test(lambda u: u.is_superuser)
 def book_add(request):
     categories = Category.objects.all()
     if request.method == "POST":
@@ -82,6 +85,7 @@ def book_add(request):
     return render(request, 'wypozyczalnia/book_edit.html', content)
 
 
+@user_passes_test(lambda u: u.is_superuser)
 def book_edit(request, slug):
     book = get_object_or_404(Book, slug=slug)
     categories = Category.objects.all()
@@ -97,6 +101,7 @@ def book_edit(request, slug):
     return render(request, 'wypozyczalnia/book_edit.html', content)
 
 
+@user_passes_test(lambda u: u.is_superuser)
 def book_delete(request, slug):
     book = get_object_or_404(Book, slug=slug)
     categories = Category.objects.all()
@@ -109,6 +114,7 @@ def book_delete(request, slug):
     return render(request, 'wypozyczalnia/book_delete.html', content)
 
 
+@login_required
 def add_to_cart(request, slug):
     item = get_object_or_404(Book, slug=slug)
     order_item, created = OrderItem.objects.get_or_create(
@@ -119,15 +125,16 @@ def add_to_cart(request, slug):
     # order query set
     order_qs = Order.objects.filter(user=request.user, ordered=False)
     if order_qs.exists():
-        order = order_qs[0] # był błąd przez to?
+        order = order_qs[0]
         if order.items.filter(item__slug=item.slug).exists():
-            # order_item.quantity += 1
-            # order_item.save()
             messages.warning(request, f'Możesz wyporzyczyć tylko jeden egzeplarz danej ksiazki.')
+            return redirect('book-detail', slug=item.slug)
+        elif order.items.count() == 3:
+            messages.warning(request, f"W koszyku masz już 3 książki. Nie możesz wypożyczyć więcej.")
             return redirect('book-detail', slug=item.slug)
         else:
             order.items.add(order_item)
-            messages.info(request, f'Książka dodana do koszyka.')
+            messages.info(request, f'Książka Wypożyczona.')
             return redirect('book-detail', slug=item.slug)
 
     else:
@@ -140,6 +147,7 @@ def add_to_cart(request, slug):
 
 # dlaczego w adminie te rzeczy cały czas są po usunięciu?
 # czy nie powinien usuwać całego obiektu order_item?
+@login_required
 def remove_from_cart(request, slug):
     item = get_object_or_404(Book, slug=slug)
     order_qs = Order.objects.filter(user=request.user, ordered=False)
@@ -149,7 +157,7 @@ def remove_from_cart(request, slug):
             order_item = OrderItem.objects.filter(item=item, user=request.user, ordered=False)[0]
             order.items.remove(order_item)
             messages.info(request, f'Książka usunięta z koszyka.')
-            return redirect("book-detail", slug=item.slug)
+            return redirect("cart-view")
         else:
             messages.warning(request, f'Nie ma takiej książki w koszyku.')
             return redirect("book-detail", slug=item.slug)
@@ -158,6 +166,7 @@ def remove_from_cart(request, slug):
         return redirect("book-detail", slug=item.slug)
 
 
+@login_required
 def cart_view(request):
     order = Order.objects.get(user=request.user)
     items = order.items.all()
@@ -167,6 +176,8 @@ def cart_view(request):
         'items_count': items_count,
     }
     return render(request, 'wypozyczalnia/cart_test.html', context)
+
+
 
 
 

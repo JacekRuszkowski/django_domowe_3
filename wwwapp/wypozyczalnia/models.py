@@ -43,7 +43,7 @@ class OrderItem(models.Model): # to jest konkretna jedna książka, którą uży
     quantity = models.IntegerField(default=1)
 
     def __str__(self):
-        return f'{self.item.title}. Ilość sztuk: {self.quantity}'
+        return f'{self.item.author} - "{self.item.title}".'
 
 
 class Order(models.Model): # to jest lista wszystkich wypozyczeń użytkownika???? Historia wypozyczeń ??

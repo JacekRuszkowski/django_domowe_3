@@ -1,14 +1,33 @@
 {% extends 'wypozyczalnia/base.html' %}
 
+
+
 {% block content %}
 <main>
-    <div class="container pt-5">
-        Ilość produktów w koszyku: {{ items_count }}
-    </div>
-    {% for item in items %}
     <div class="container">
-        {{ item }}
+        {% for item in items %}
+            <div class="col-8 offset-2 mt-2">
+                <img width="40px" src="{{ item.item.image.url }}">
+                <a class="ml-2" href="{% url 'book-detail' item.item.slug %}">{{ item }}</a>
+                <a  class="text-muted ml-3" href="{% url 'remove-from-cart' item.item.slug %}">Usuń
+                  <i class="fas fa-trash ml-1"></i>
+                </a>
+                <hr class="my-4">
+            </div>
+        {% endfor %}
+        {% if items.count > 0 %}
+            <div class="col-8 offset-2 mt-4">
+                 <a class="btn btn-primary btn-md ml-0 p" href="">wypożycz
+                </a>
+            </div>
+        {% else %}
+            <div class="col-8 offset-2 mt-2">
+                <span class="ml-2" >Koszyk jest pusty</span>
+
+                <hr class="my-4">
+            </div>
+        {% endif %}
     </div>
-    {% endfor %}
+
 </main>
 {% endblock content %}

@@ -25,7 +25,8 @@ from .views import (home,
                     search_results,
                     add_to_cart,
                     remove_from_cart,
-                    cart_view)
+                    cart_view
+                    )
 
 urlpatterns = [
     path('', home, name='home'),
@@ -37,6 +38,6 @@ urlpatterns = [
     path('<str:slug>/edit/', book_edit, name='book-edit'),
     path('<str:slug>/', book_detail, name='book-detail'),
     path('<str:slug>/delete/', book_delete, name='book-delete'),
-    path('add-to-cart/<slug>', add_to_cart, name='add-to-cart'),
-    path('remove-from-cart/<slug>', remove_from_cart, name='remove-from-cart'),
+    path('add-to-cart/<slug>/', add_to_cart, name='add-to-cart'),
+    path('remove-from-cart/<slug>/', remove_from_cart, name='remove-from-cart'),
 ]

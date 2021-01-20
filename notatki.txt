@@ -78,11 +78,14 @@ potrzebuję rzecz, któą chce dodać:
 
 54:10
 
+Elementy css:
+https://mdbootstrap.com/docs/standard/
 
 
+Można zrobić potem, że można wyporzyczyć więcej egzemplarzy książek - będzie trudniej.
 
-
-
+Co ja mam teraz zrobić?
+jak zrealizować zamówienie?
 
 
 

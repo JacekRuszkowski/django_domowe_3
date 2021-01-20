@@ -44,13 +44,10 @@
                 {% endif %}
             </div>
 
-            <a class="btn btn-primary btn-md ml-0 p" href="{% url 'add-to-cart' book.slug %}">Dodaj do koszyka
+            <a class="btn btn-primary btn-md ml-0 p" onclick="return confirm('Chcesz wypożyczyć tę książkę?')" href="{% url 'add-to-cart' book.slug %}">Dodaj do koszyka
               <i class="fas fa-shopping-cart ml-1"></i>
             </a>
 
-            <a class="btn btn-danger btn-md ml-0 p" href="{% url 'remove-from-cart' book.slug %}">Usuń z koszyka
-              <i class="fas fa-shopping-cart ml-1"></i>
-            </a>
 
 
           </div>
